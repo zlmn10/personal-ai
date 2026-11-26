@@ -1,0 +1,413 @@
+@import "tailwindcss";
+
+:root {
+  --app-background: linear-gradient(135deg, #A9D0FA 0%, #A6E7F4 30%, #B98BFA 65%, #C6F6B0 100%);
+  --ambient-blob-1: radial-gradient(circle, rgba(166, 231, 244, 0.45) 0%, rgba(166, 231, 244, 0) 70%);
+  --ambient-blob-2: radial-gradient(circle, rgba(216, 180, 254, 0.5) 0%, rgba(216, 180, 254, 0) 70%);
+  --ambient-blob-3: radial-gradient(circle, rgba(198, 246, 176, 0.45) 0%, rgba(198, 246, 176, 0) 70%);
+  --ambient-blob-4: radial-gradient(circle, rgba(251, 207, 232, 0.4) 0%, rgba(251, 207, 232, 0) 70%);
+  
+  --glass-shell-bg: rgba(255, 255, 255, 0.48);
+  --glass-shell-border: rgba(255, 255, 255, 0.65);
+  --glass-shell-shadow: 0 20px 80px rgba(65, 70, 130, 0.12);
+  
+  --glass-panel-bg: rgba(255, 255, 255, 0.54);
+  --glass-panel-border: rgba(255, 255, 255, 0.75);
+  
+  --glass-composer-bg: rgba(255, 255, 255, 0.82);
+  --glass-composer-border: rgba(255, 255, 255, 0.95);
+  --glass-composer-shadow: 0 12px 35px rgba(90, 100, 150, 0.07);
+  
+  --glass-card-bg: rgba(255, 255, 255, 0.58);
+  --glass-card-border: rgba(255, 255, 255, 0.75);
+  --glass-pill-bg: rgba(255, 255, 255, 0.65);
+  --glass-pill-border: rgba(255, 255, 255, 0.85);
+
+  --user-bubble-bg: linear-gradient(135deg, #4f86f7 0%, #765cf6 100%);
+  --user-bubble-text: #ffffff;
+  --ai-bubble-bg: rgba(255, 255, 255, 0.72);
+  --ai-bubble-text: #1e2432;
+
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-glow: 0 0 20px rgba(99, 102, 241, 0.25);
+
+  --text-primary: #1e2432;
+  --text-secondary: #62697b;
+  --text-muted: #94a3b8;
+
+  --glass-blur: 35px;
+  --glass-radius: 24px;
+  --font-family-base: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-size-base: 14px;
+}
+
+.dark {
+  --glass-shell-bg: rgba(17, 24, 39, 0.72);
+  --glass-shell-border: rgba(255, 255, 255, 0.12);
+  --glass-shell-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+  
+  --glass-panel-bg: rgba(15, 23, 42, 0.75);
+  --glass-panel-border: rgba(255, 255, 255, 0.14);
+  
+  --glass-composer-bg: rgba(22, 30, 49, 0.88);
+  --glass-composer-border: rgba(255, 255, 255, 0.2);
+  --glass-composer-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  
+  --glass-card-bg: rgba(30, 41, 59, 0.65);
+  --glass-card-border: rgba(255, 255, 255, 0.12);
+  --glass-pill-bg: rgba(30, 41, 59, 0.75);
+  --glass-pill-border: rgba(255, 255, 255, 0.16);
+
+  --ai-bubble-bg: rgba(24, 32, 51, 0.75);
+  --ai-bubble-text: #f1f5f9;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+@layer base {
+  body {
+    background: var(--app-background);
+    color: var(--text-primary);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    transition: background 0.3s ease, color 0.2s ease;
+  }
+}
+
+/* Background Ambient Lighting Blobs */
+.bg-ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.blob-1 {
+  position: absolute;
+  top: -10%;
+  left: 15%;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  background: var(--ambient-blob-1);
+  filter: blur(60px);
+  transition: background 0.4s ease;
+}
+
+.blob-2 {
+  position: absolute;
+  top: 20%;
+  right: -5%;
+  width: 55vw;
+  height: 55vw;
+  border-radius: 50%;
+  background: var(--ambient-blob-2);
+  filter: blur(70px);
+  transition: background 0.4s ease;
+}
+
+.blob-3 {
+  position: absolute;
+  bottom: -15%;
+  right: 15%;
+  width: 45vw;
+  height: 45vw;
+  border-radius: 50%;
+  background: var(--ambient-blob-3);
+  filter: blur(60px);
+  transition: background 0.4s ease;
+}
+
+.blob-4 {
+  position: absolute;
+  top: 40%;
+  left: -10%;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  background: var(--ambient-blob-4);
+  filter: blur(60px);
+  transition: background 0.4s ease;
+}
+
+/* 3D Glass Floating Orb */
+.orb-3d {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    #ff6b9d 0%,
+    #f472b6 25%,
+    #a855f7 50%,
+    #60a5fa 75%,
+    #38bdf8 100%
+  );
+  box-shadow:
+    0 16px 40px rgba(168, 85, 247, 0.35),
+    0 4px 18px rgba(244, 114, 182, 0.3),
+    inset 0 -12px 24px rgba(56, 189, 248, 0.6),
+    inset 0 10px 16px rgba(255, 255, 255, 0.85);
+  animation: floatOrb 5s ease-in-out infinite;
+}
+
+.orb-3d::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 20px;
+  width: 58px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent 100%
+  );
+  transform: rotate(-10deg);
+  filter: blur(0.6px);
+}
+
+.orb-3d::after {
+  content: '';
+  position: absolute;
+  bottom: 12px;
+  right: 18px;
+  width: 40px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(147, 197, 253, 0.7) 0%,
+    transparent 70%
+  );
+  filter: blur(2px);
+}
+
+@keyframes floatOrb {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+/* Mini 3D Glass Sphere Logo (matching the big 3D iridescent orb) */
+.orb-3d-mini {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  background: linear-gradient(
+    145deg,
+    #ff6b9d 0%,
+    #f472b6 25%,
+    #a855f7 50%,
+    #60a5fa 75%,
+    #38bdf8 100%
+  );
+  box-shadow:
+    0 4px 14px rgba(168, 85, 247, 0.4),
+    0 2px 6px rgba(244, 114, 182, 0.3),
+    inset 0 -3px 7px rgba(56, 189, 248, 0.7),
+    inset 0 3px 5px rgba(255, 255, 255, 0.9);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.orb-3d-mini:hover {
+  transform: scale(1.08) rotate(5deg);
+  box-shadow:
+    0 6px 18px rgba(168, 85, 247, 0.55),
+    inset 0 -3px 7px rgba(56, 189, 248, 0.8),
+    inset 0 3px 6px rgba(255, 255, 255, 0.95);
+}
+
+.orb-3d-mini::before {
+  content: '';
+  position: absolute;
+  top: 2.5px;
+  left: 5px;
+  width: 15px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%
+  );
+  transform: rotate(-12deg);
+  filter: blur(0.3px);
+}
+
+.orb-3d-mini::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 5px;
+  width: 11px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(147, 197, 253, 0.8) 0%,
+    transparent 70%
+  );
+  filter: blur(0.5px);
+}
+
+/* Glassmorphism Surface Utilities with CSS variables */
+.glass-shell {
+  background: var(--glass-shell-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  border: 1px solid var(--glass-shell-border);
+  box-shadow: var(--glass-shell-shadow);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-panel {
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-panel-border);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.glass-composer {
+  background: var(--glass-composer-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-composer-border);
+  box-shadow: var(--glass-composer-shadow);
+  border-radius: var(--glass-radius);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* High-contrast composer text and placeholder formatting across all themes */
+.glass-composer textarea {
+  font-weight: 500 !important;
+  color: var(--glass-composer-text, #0f172a) !important;
+  caret-color: var(--glass-composer-caret, #6366f1) !important;
+}
+
+.glass-composer textarea::placeholder {
+  color: var(--glass-composer-placeholder, #64748b) !important;
+  opacity: 0.85 !important;
+}
+
+.glass-composer[data-dark="false"] textarea {
+  color: #0f172a !important;
+  caret-color: #6366f1 !important;
+}
+
+.glass-composer[data-dark="false"] textarea::placeholder {
+  color: #64748b !important;
+  opacity: 0.85 !important;
+}
+
+.glass-composer[data-dark="true"] textarea {
+  color: #f8fafc !important;
+  caret-color: #818cf8 !important;
+}
+
+.glass-composer[data-dark="true"] textarea::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.85 !important;
+}
+
+/* High-contrast Assistant Message & Markdown content across themes */
+.markdown-content,
+.markdown-content p,
+.markdown-content li,
+.markdown-content span {
+  color: var(--ai-bubble-text, var(--text-primary, #1e2432));
+}
+
+.dark .markdown-content,
+.dark .markdown-content p,
+.dark .markdown-content li,
+.dark .markdown-content span {
+  color: var(--ai-bubble-text, var(--text-primary, #f8fafc));
+}
+
+.glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.65));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.65));
+  border: 1px solid var(--glass-card-border);
+  border-radius: calc(var(--glass-radius) * 0.8);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  filter: brightness(1.03);
+}
+
+.glass-pill {
+  background: var(--glass-pill-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.5));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.5));
+  border: 1px solid var(--glass-pill-border);
+  border-radius: 9999px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.glass-pill:hover {
+  filter: brightness(1.05);
+}
+
+/* User & AI Messages */
+.message-user-bubble {
+  background: var(--user-bubble-bg);
+  color: var(--user-bubble-text);
+  border-radius: var(--glass-radius);
+}
+
+.message-ai-bubble {
+  background: var(--ai-bubble-bg);
+  color: var(--ai-bubble-text);
+  border: 1px solid var(--glass-panel-border);
+  border-radius: var(--glass-radius);
+}
+
+/* Wide Responsive Chat Workspace Layout */
+.chat-wide-container {
+  width: min(96%, 1560px);
+  margin-inline: auto;
+}
+
+/* Clean Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 150, 180, 0.28);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 130, 170, 0.45);
+}
